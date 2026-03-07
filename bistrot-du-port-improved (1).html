@@ -1216,7 +1216,7 @@ const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'bistrot2025';
 
 // ── ÉTAT ──
-let slots = JSON.parse(localStorage.getItem('bistrot_slots') || 'Array(6).fill(null)');
+let slots = JSON.parse(localStorage.getItem('bistrot_slots') || 'null') || Array(6).fill(null);
 // slots = [{ id, name, date, dataUrl } | null] x6
 let slides = JSON.parse(localStorage.getItem('bistrot_slides') || '[]');
 // slides = [{ id, name, dataUrl }]
