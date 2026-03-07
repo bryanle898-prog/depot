@@ -1174,9 +1174,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// Lecture localStorage (données sauvegardées depuis admin.html)
-let slots = JSON.parse(localStorage.getItem('bistrot_slots') || 'null') || Array(6).fill(null);
-let slides = JSON.parse(localStorage.getItem('bistrot_slides') || '[]');
+// ── URL de votre WordPress (modifier si nécessaire) ──
+const WP_API = '/wp-json/bistrot/v1/data';
+
+let slots  = Array(6).fill(null);
+let slides = [];
 let slideshowIndex = 0;
 let slideshowTimer = null;
 
@@ -1194,7 +1196,7 @@ function renderPublicMenus() {
   grid.innerHTML = slots.map((s, i) => {
     if (!s) return '';
     return `<div class="menu-card" onclick="openModal('${s.id}')">
-      <img src="${s.dataUrl}" alt="${s.name}" loading="lazy">
+      <img src="${s.url || s.dataUrl || ''}" alt="${s.name}" loading="lazy">
       <div class="menu-card-overlay">
         <div class="menu-card-label">${s.name}</div>
         <div class="menu-card-date">${s.date}</div>
@@ -1214,7 +1216,7 @@ function renderSlideshow() {
     return;
   }
   container.innerHTML = slides.map((s, i) =>
-    `<div class="slide${i === 0 ? ' active' : ''}"><img src="${s.dataUrl}" alt="${s.name}" loading="lazy"></div>`
+    `<div class="slide${i === 0 ? ' active' : ''}"><img src="${s.url || s.dataUrl || ''}" alt="${s.name}" loading="lazy"></div>`
   ).join('');
   dots.innerHTML = slides.map((s, i) =>
     `<button class="slideshow-dot${i === 0 ? ' active' : ''}" onclick="goToSlide(${i})"></button>`
@@ -1233,9 +1235,9 @@ function goToSlide(idx) {
 
 // ── LIGHTBOX ──
 function openModal(id) {
-  const s = slots.find(s => s && s.id === id);
+  const s = slots.find(s => s && s.id == id);
   if (!s) return;
-  document.getElementById('modal-img').src = s.dataUrl;
+  document.getElementById('modal-img').src = s.url || s.dataUrl || '';
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1244,8 +1246,19 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-renderPublicMenus();
-renderSlideshow();
+// Chargement depuis WordPress
+fetch(WP_API)
+  .then(r => r.json())
+  .then(data => {
+    slots  = data.slots  || Array(6).fill(null);
+    slides = data.slides || [];
+    renderPublicMenus();
+    renderSlideshow();
+  })
+  .catch(() => {
+    renderPublicMenus();
+    renderSlideshow();
+  });
 </script>
 </body>
 </html>
