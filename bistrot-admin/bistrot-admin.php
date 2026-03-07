@@ -234,10 +234,14 @@ add_action('rest_api_init', function () {
     register_rest_route('bistrot/v1', '/data', [
         'methods'             => 'GET',
         'callback'            => function () {
-            return rest_ensure_response([
+            $response = rest_ensure_response([
                 'slots'  => get_option('bistrot_slots',  array_fill(0, 6, null)),
                 'slides' => get_option('bistrot_slides', []),
             ]);
+            $response->header('Access-Control-Allow-Origin',  '*');
+            $response->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+            $response->header('Access-Control-Allow-Headers', 'Content-Type');
+            return $response;
         },
         'permission_callback' => '__return_true',
     ]);

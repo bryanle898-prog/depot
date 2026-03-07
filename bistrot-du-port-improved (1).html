@@ -1113,14 +1113,18 @@ function closeModal() {
 
 // Chargement depuis WordPress
 fetch(WP_API)
-  .then(r => r.json())
+  .then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
   .then(data => {
     slots  = data.slots  || Array(6).fill(null);
     slides = data.slides || [];
     renderPublicMenus();
     renderSlideshow();
   })
-  .catch(() => {
+  .catch(err => {
+    console.warn('[Bistrot] Impossible de charger les données WordPress :', err, WP_API);
     renderPublicMenus();
     renderSlideshow();
   });
