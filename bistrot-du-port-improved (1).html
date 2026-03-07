@@ -1140,48 +1140,11 @@
 </footer>
 
 <!-- âââ ADMIN TOGGLE âââ -->
-<!-- ─── LOGIN MODAL ─── -->
-<div class="login-overlay" id="login-overlay">
-  <div class="login-box">
-    <div class="login-title">Espace Admin</div>
-    <div class="login-subtitle">Le Bistrot du Port</div>
-    <div class="login-field">
-      <label for="login-user">Identifiant</label>
-      <input type="text" id="login-user" autocomplete="username" placeholder="Identifiant">
-    </div>
-    <div class="login-field">
-      <label for="login-pass">Mot de passe</label>
-      <input type="password" id="login-pass" autocomplete="current-password" placeholder="••••••••">
-    </div>
-    <div class="login-error" id="login-error">Identifiant ou mot de passe incorrect.</div>
-    <button class="btn-login" onclick="tryLogin()">Se connecter</button>
-    <button class="login-cancel" onclick="closeLogin()">Annuler</button>
-  </div>
-</div>
 
 <button class="admin-toggle" onclick="openLogin()">⚙ Admin</button>
 
 <!-- âââ ADMIN PANEL âââ -->
-<div class="admin-panel" id="admin-panel">
-  <div class="admin-header">
-    <div class="admin-title">Gestion du site</div>
-    <button class="admin-close" onclick="closeAdmin()">✕ Fermer</button>
-  </div>
 
-  <div class="admin-tabs">
-    <button class="admin-tab active" onclick="switchTab('menus-tab', this)">6 Cartes Menus</button>
-    <button class="admin-tab" onclick="switchTab('slideshow-tab', this)">Diaporama Plats</button>
-  </div>
-
-  <!-- TAB: 6 CARTES -->
-  <div class="admin-tab-content active" id="menus-tab">
-    <p style="font-size:0.8rem;color:var(--reed);margin-bottom:1.5rem;">Cliquez sur un emplacement pour y ajouter ou remplacer une photo (6 maximum).</p>
-    <input type="file" id="file-input-slot" accept="image/png,image/jpeg,image/webp" class="hidden-input">
-    <div class="menus-grid-6" id="admin-slots-grid">
-      <!-- Rempli par JS -->
-    </div>
-    <button class="btn-save" onclick="saveAll()" style="margin-top:2rem;">Enregistrer & publier</button>
-  </div>
 
   <!-- TAB: SLIDESHOW -->
   <div class="admin-tab-content" id="slideshow-tab">
@@ -1210,69 +1173,20 @@
 <!-- âââ TOAST âââ -->
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── CREDENTIALS (changez ici) ──
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'bistrot2025';
-
-// ── ÉTAT ──
+<script>
+// Lecture localStorage (données sauvegardées depuis admin.html)
 let slots = JSON.parse(localStorage.getItem('bistrot_slots') || 'null') || Array(6).fill(null);
-// slots = [{ id, name, date, dataUrl } | null] x6
 let slides = JSON.parse(localStorage.getItem('bistrot_slides') || '[]');
-// slides = [{ id, name, dataUrl }]
-
 let slideshowIndex = 0;
 let slideshowTimer = null;
-let pendingSlotIndex = null;
 
-// ── LOGIN ──
-function openLogin() {
-  document.getElementById('login-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('login-user').focus(), 100);
-}
-function closeLogin() {
-  document.getElementById('login-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-  document.getElementById('login-error').classList.remove('show');
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-pass').value = '';
-}
-function tryLogin() {
-  const u = document.getElementById('login-user').value.trim();
-  const p = document.getElementById('login-pass').value;
-  if (u === ADMIN_USER && p === ADMIN_PASS) {
-    closeLogin();
-    openAdmin();
-  } else {
-    document.getElementById('login-error').classList.add('show');
-    document.getElementById('login-pass').value = '';
-  }
-}
-// Enter key on login
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('login-overlay').classList.contains('open')) {
-    tryLogin();
-  }
-});
-
-// ── ONGLETS ADMIN ──
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ── RENDER PUBLIC MENUS (6 slots) ──
+// ── CARTES MENUS (6 slots) ──
 function renderPublicMenus() {
   const grid = document.getElementById('menus-grid');
-  const filled = slots.filter(s => s !== null);
+  const filled = slots.filter(Boolean);
   if (filled.length === 0) {
     grid.innerHTML = `<div class="menu-card menu-card-placeholder" style="grid-column:1/-1;padding:4rem;border:1px dashed rgba(255,255,255,0.1);">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-        <rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/>
-      </svg>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
       <span style="letter-spacing:.15em;text-transform:uppercase;">Aucun menu publié pour le moment</span>
     </div>`;
     return;
@@ -1289,188 +1203,32 @@ function renderPublicMenus() {
   }).join('');
 }
 
-// ── RENDER ADMIN SLOTS ──
-function renderAdminSlots() {
-  const grid = document.getElementById('admin-slots-grid');
-  grid.innerHTML = slots.map((s, i) => {
-    if (s) {
-      return `<div class="slot-card-admin filled" onclick="replaceSlot(${i})">
-        <span class="slot-num">Carte ${i+1}</span>
-        <img src="${s.dataUrl}" alt="${s.name}">
-        <button class="slot-del" onclick="event.stopPropagation();deleteSlot(${i})" title="Supprimer">✕</button>
-      </div>`;
-    } else {
-      return `<div class="slot-card-admin" onclick="fillSlot(${i})">
-        <span class="slot-num">Carte ${i+1}</span>
-        <div class="slot-empty">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
-          </svg>
-          Ajouter
-        </div>
-      </div>`;
-    }
-  }).join('');
-}
-
-function fillSlot(index) {
-  pendingSlotIndex = index;
-  document.getElementById('file-input-slot').value = '';
-  document.getElementById('file-input-slot').click();
-}
-
-function replaceSlot(index) {
-  pendingSlotIndex = index;
-  document.getElementById('file-input-slot').value = '';
-  document.getElementById('file-input-slot').click();
-}
-
-function deleteSlot(index) {
-  slots[index] = null;
-  renderAdminSlots();
-}
-
-document.getElementById('file-input-slot').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file || pendingSlotIndex === null) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    slots[pendingSlotIndex] = {
-      id: 'slot_' + Date.now(),
-      name: file.name.replace(/\.[^.]+$/, ''),
-      date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
-      dataUrl: ev.target.result
-    };
-    pendingSlotIndex = null;
-    renderAdminSlots();
-    showToast('Photo ajoutée ✓');
-  };
-  reader.readAsDataURL(file);
-});
-
-// ── SLIDESHOW PUBLIC ──
+// ── DIAPORAMA ──
 function renderSlideshow() {
   const container = document.getElementById('slideshow-container');
   const dots = document.getElementById('slideshow-dots');
-  const empty = document.getElementById('slideshow-empty');
-
+  clearInterval(slideshowTimer);
   if (slides.length === 0) {
-    container.innerHTML = '<div class="slideshow-empty" id="slideshow-empty">Aucune photo ajoutée pour le moment</div>';
+    container.innerHTML = '<div class="slideshow-empty">Aucune photo ajoutée pour le moment</div>';
     dots.innerHTML = '';
-    clearInterval(slideshowTimer);
     return;
   }
-
-  // Clear
-  container.innerHTML = '';
-  dots.innerHTML = '';
-
-  slides.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'slide' + (i === 0 ? ' active' : '');
-    div.innerHTML = `<img src="${s.dataUrl}" alt="${s.name}" loading="lazy">`;
-    container.appendChild(div);
-
-    const dot = document.createElement('button');
-    dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(i);
-    dots.appendChild(dot);
-  });
-
+  container.innerHTML = slides.map((s, i) =>
+    `<div class="slide${i === 0 ? ' active' : ''}"><img src="${s.dataUrl}" alt="${s.name}" loading="lazy"></div>`
+  ).join('');
+  dots.innerHTML = slides.map((s, i) =>
+    `<button class="slideshow-dot${i === 0 ? ' active' : ''}" onclick="goToSlide(${i})"></button>`
+  ).join('');
   slideshowIndex = 0;
-  clearInterval(slideshowTimer);
   if (slides.length > 1) {
     slideshowTimer = setInterval(() => goToSlide((slideshowIndex + 1) % slides.length), 8000);
   }
 }
 
 function goToSlide(idx) {
-  const allSlides = document.querySelectorAll('.slide');
-  const allDots = document.querySelectorAll('.slideshow-dot');
-  allSlides.forEach((s, i) => s.classList.toggle('active', i === idx));
-  allDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.querySelectorAll('.slideshow-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
   slideshowIndex = idx;
-}
-
-// ── RENDER ADMIN SLIDES ──
-function renderAdminSlides() {
-  const grid = document.getElementById('admin-slides-grid');
-  if (slides.length === 0) {
-    grid.innerHTML = '<p class="empty-menus">Aucune photo importée. Ajoutez des images ci-dessus.</p>';
-    return;
-  }
-  grid.innerHTML = slides.map(s => `
-    <div class="admin-card">
-      <img src="${s.dataUrl}" alt="${s.name}">
-      <div class="admin-card-info">
-        <span class="admin-card-name">${s.name}</span>
-        <button class="admin-card-delete" onclick="deleteSlide('${s.id}')" title="Supprimer">✕</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function deleteSlide(id) {
-  slides = slides.filter(s => s.id !== id);
-  renderAdminSlides();
-}
-
-// Upload slides
-document.getElementById('file-input-slide').addEventListener('change', e => {
-  handleSlideFiles(e.target.files);
-});
-
-function handleSlideFiles(files) {
-  const promises = Array.from(files).map(file => new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = ev => resolve({
-      id: 'slide_' + Date.now() + '_' + Math.random().toString(36).slice(2),
-      name: file.name.replace(/\.[^.]+$/, ''),
-      dataUrl: ev.target.result
-    });
-    reader.readAsDataURL(file);
-  }));
-  Promise.all(promises).then(newSlides => {
-    slides.push(...newSlides);
-    renderAdminSlides();
-    showToast(newSlides.length + ' photo(s) ajoutée(s) ✓');
-  });
-}
-
-// Drag & drop slideshow
-const zone = document.getElementById('upload-zone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('drag-over');
-  handleSlideFiles(e.dataTransfer.files);
-});
-
-// ── SAVE ALL ──
-function saveAll() {
-  try {
-    localStorage.setItem('bistrot_slots', JSON.stringify(slots));
-    localStorage.setItem('bistrot_slides', JSON.stringify(slides));
-    renderPublicMenus();
-    renderSlideshow();
-    showToast('Modifications publiées ✓');
-    setTimeout(closeAdmin, 1200);
-  } catch(e) {
-    showToast('Erreur : fichiers trop volumineux');
-  }
-}
-
-// ── ADMIN PANEL ──
-function openAdmin() {
-  renderAdminSlots();
-  renderAdminSlides();
-  document.getElementById('admin-panel').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeAdmin() {
-  document.getElementById('admin-panel').classList.remove('open');
-  document.body.style.overflow = '';
 }
 
 // ── LIGHTBOX ──
@@ -1486,15 +1244,6 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// ── TOAST ──
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ── INIT ──
 renderPublicMenus();
 renderSlideshow();
 </script>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Le Bistrot du Port</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #E8DCC8;
+    --warm-white: #F7F2EA;
+    --deep-sea: #1A3040;
+    --sea: #2B5672;
+    --flamingo: #C4614A;
+    --gold: #B8913A;
+    --reed: #7A6E5A;
+    --light-reed: #BFB9AB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--deep-sea);
+    color: var(--sand);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── LOGIN ── */
+  #login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 3rem;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .login-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--light-reed);
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+  }
+
+  .login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--sand);
+    margin-bottom: 0.4rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--reed);
+    margin-bottom: 2.5rem;
+  }
+
+  .field { margin-bottom: 1.2rem; }
+
+  .field label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light-reed);
+    margin-bottom: 0.5rem;
+  }
+
+  .field input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--sand);
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field input:focus { border-color: var(--flamingo); }
+
+  .login-error {
+    color: #e74c3c;
+    font-size: 0.78rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .login-error.show { display: block; }
+
+  .btn-primary {
+    width: 100%;
+    background: var(--flamingo);
+    color: white;
+    border: none;
+    padding: 0.95rem;
+    cursor: pointer;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.3s;
+    margin-top: 0.3rem;
+  }
+  .btn-primary:hover { background: #a84f3a; }
+
+  /* ── ADMIN PAGE ── */
+  #admin-page { display: none; }
+
+  .admin-header {
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .admin-brand {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--sand);
+  }
+
+  .admin-brand span {
+    font-style: normal;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--flamingo);
+    margin-left: 1rem;
+  }
+
+  .btn-logout {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--reed);
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-logout:hover { border-color: var(--flamingo); color: var(--flamingo); }
+
+  .admin-body { padding: 3rem; max-width: 1100px; margin: 0 auto; }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 2.5rem;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--reed);
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { color: var(--sand); border-bottom-color: var(--flamingo); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .tab-desc {
+    font-size: 0.82rem;
+    color: var(--reed);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  /* ── 6 SLOTS ── */
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .slot {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: rgba(255,255,255,0.04);
+    border: 2px dashed rgba(255,255,255,0.12);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+
+  .slot.filled {
+    border-style: solid;
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .slot:hover { border-color: var(--flamingo); }
+
+  .slot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slot-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 0.8rem;
+    color: rgba(255,255,255,0.2);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .slot-num {
+    position: absolute;
+    top: 0.6rem; left: 0.8rem;
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.08em;
+  }
+
+  .slot-del {
+    position: absolute;
+    top: 0.5rem; right: 0.5rem;
+    background: rgba(231,76,60,0.9);
+    color: white;
+    border: none;
+    width: 28px; height: 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .slot.filled:hover .slot-del { opacity: 1; }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed rgba(255,255,255,0.12);
+    padding: 3.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 2rem;
+  }
+  .upload-zone:hover,
+  .upload-zone.drag-over {
+    border-color: var(--flamingo);
+    background: rgba(196,97,74,0.05);
+  }
+  .upload-zone-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .upload-zone-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--sand);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .upload-zone-hint {
+    font-size: 0.75rem;
+    color: var(--reed);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SLIDES GRID ── */
+  .slides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .slide-card {
+    position: relative;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+
+  .slide-card img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slide-card-info {
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slide-card-name {
+    font-size: 0.72rem;
+    color: var(--light-reed);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75%;
+  }
+
+  .slide-card-del {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--reed);
+    width: 26px; height: 26px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .slide-card-del:hover { border-color: #e74c3c; color: #e74c3c; }
+
+  .empty-msg {
+    text-align: center;
+    padding: 3rem;
+    color: var(--reed);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  /* ── SAVE BTN ── */
+  .btn-save {
+    background: var(--flamingo);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.3s;
+  }
+  .btn-save:hover { background: #a84f3a; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--deep-sea);
+    border: 1px solid var(--flamingo);
+    color: var(--sand);
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    z-index: 999;
+    transform: translateY(200%);
+    transition: transform 0.4s cubic-bezier(.19,1,.22,1);
+  }
+  .toast.show { transform: translateY(0); }
+
+  .hidden-input { display: none; }
+
+  @media (max-width: 768px) {
+    .admin-header { padding: 1rem 1.5rem; }
+    .admin-body { padding: 2rem 1.5rem; }
+    .slots-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .login-box { padding: 2rem 1.5rem; }
+    .slots-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── PAGE LOGIN ── -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="login-logo">Le Bistrot du Port</div>
+    <div class="login-title">Espace Admin</div>
+    <div class="login-subtitle">Connectez-vous pour gérer le site</div>
+    <div class="field">
+      <label for="u">Identifiant</label>
+      <input type="text" id="u" autocomplete="username" placeholder="Identifiant">
+    </div>
+    <div class="field">
+      <label for="p">Mot de passe</label>
+      <input type="password" id="p" autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <div class="login-error" id="login-error">Identifiant ou mot de passe incorrect.</div>
+    <button class="btn-primary" onclick="tryLogin()">Se connecter</button>
+  </div>
+</div>
+
+<!-- ── PAGE ADMIN ── -->
+<div id="admin-page">
+
+  <div class="admin-header">
+    <div class="admin-brand">Le Bistrot du Port <span>Administration</span></div>
+    <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+  </div>
+
+  <div class="admin-body">
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-menus', this)">6 Cartes Menus</button>
+      <button class="tab-btn" onclick="switchTab('tab-slides', this)">Diaporama Plats</button>
+    </div>
+
+    <!-- TAB MENUS -->
+    <div class="tab-content active" id="tab-menus">
+      <p class="tab-desc">Cliquez sur un emplacement vide pour y ajouter une photo. Cliquez sur une photo existante pour la remplacer. 6 cartes maximum.</p>
+      <input type="file" id="input-slot" accept="image/*" class="hidden-input">
+      <div class="slots-grid" id="slots-grid"></div>
+      <button class="btn-save" onclick="saveAll()">Enregistrer & publier</button>
+    </div>
+
+    <!-- TAB SLIDESHOW -->
+    <div class="tab-content" id="tab-slides">
+      <p class="tab-desc">Ajoutez des photos de plats pour le diaporama qui défile toutes les 8 secondes sur le site.</p>
+      <input type="file" id="input-slide" accept="image/*" multiple class="hidden-input">
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-zone-icon">🖼️</div>
+        <span class="upload-zone-label">Glissez vos photos ici ou cliquez pour choisir</span>
+        <span class="upload-zone-hint">PNG · JPG · WEBP — plusieurs fichiers acceptés</span>
+      </div>
+      <div class="slides-grid" id="slides-grid"></div>
+      <button class="btn-save" onclick="saveAll()">Enregistrer & publier</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── IDENTIFIANTS (modifiez ici) ──
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'bistrot2025';
+
+// ── ÉTAT ──
+let slots = JSON.parse(localStorage.getItem('bistrot_slots') || 'null') || Array(6).fill(null);
+let slides = JSON.parse(localStorage.getItem('bistrot_slides') || '[]');
+let pendingSlot = null;
+
+// ── LOGIN ──
+function tryLogin() {
+  const u = document.getElementById('u').value.trim();
+  const p = document.getElementById('p').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('admin-page').style.display = 'block';
+    renderSlots();
+    renderSlides();
+  } else {
+    document.getElementById('login-error').classList.add('show');
+    document.getElementById('p').value = '';
+    document.getElementById('p').focus();
+  }
+}
+
+function logout() {
+  document.getElementById('admin-page').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('u').value = '';
+  document.getElementById('p').value = '';
+  document.getElementById('login-error').classList.remove('show');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-page').style.display !== 'none') {
+    tryLogin();
+  }
+});
+
+// ── ONGLETS ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── SLOTS (6 cartes) ──
+function renderSlots() {
+  const grid = document.getElementById('slots-grid');
+  grid.innerHTML = slots.map((s, i) => {
+    if (s) {
+      return `<div class="slot filled" onclick="replaceSlot(${i})">
+        <span class="slot-num">Carte ${i + 1}</span>
+        <img src="${s.dataUrl}" alt="${s.name}">
+        <button class="slot-del" onclick="event.stopPropagation(); deleteSlot(${i})">✕</button>
+      </div>`;
+    }
+    return `<div class="slot" onclick="fillSlot(${i})">
+      <span class="slot-num">Carte ${i + 1}</span>
+      <div class="slot-empty-content">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+        </svg>
+        Ajouter
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function fillSlot(i) { pendingSlot = i; triggerSlotInput(); }
+function replaceSlot(i) { pendingSlot = i; triggerSlotInput(); }
+function triggerSlotInput() {
+  const inp = document.getElementById('input-slot');
+  inp.value = '';
+  inp.click();
+}
+function deleteSlot(i) { slots[i] = null; renderSlots(); }
+
+document.getElementById('input-slot').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file || pendingSlot === null) return;
+  readFile(file).then(dataUrl => {
+    slots[pendingSlot] = {
+      id: 'slot_' + Date.now(),
+      name: stripExt(file.name),
+      date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+      dataUrl
+    };
+    pendingSlot = null;
+    renderSlots();
+    showToast('Photo ajoutée ✓');
+  });
+});
+
+// ── SLIDES (diaporama) ──
+function renderSlides() {
+  const grid = document.getElementById('slides-grid');
+  if (slides.length === 0) {
+    grid.innerHTML = '<p class="empty-msg">Aucune photo ajoutée. Utilisez la zone ci-dessus.</p>';
+    return;
+  }
+  grid.innerHTML = slides.map(s => `
+    <div class="slide-card">
+      <img src="${s.dataUrl}" alt="${s.name}">
+      <div class="slide-card-info">
+        <span class="slide-card-name">${s.name}</span>
+        <button class="slide-card-del" onclick="deleteSlide('${s.id}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function deleteSlide(id) {
+  slides = slides.filter(s => s.id !== id);
+  renderSlides();
+}
+
+document.getElementById('input-slide').addEventListener('change', e => addSlides(e.target.files));
+
+const zone = document.getElementById('upload-zone');
+zone.addEventListener('click', () => document.getElementById('input-slide').click());
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  addSlides(e.dataTransfer.files);
+});
+
+function addSlides(files) {
+  Promise.all(Array.from(files).map(file =>
+    readFile(file).then(dataUrl => ({
+      id: 'slide_' + Date.now() + '_' + Math.random().toString(36).slice(2),
+      name: stripExt(file.name),
+      dataUrl
+    }))
+  )).then(newSlides => {
+    slides.push(...newSlides);
+    renderSlides();
+    showToast(newSlides.length + ' photo(s) ajoutée(s) ✓');
+  });
+}
+
+// ── SAUVEGARDE ──
+function saveAll() {
+  try {
+    localStorage.setItem('bistrot_slots', JSON.stringify(slots));
+    localStorage.setItem('bistrot_slides', JSON.stringify(slides));
+    showToast('Modifications publiées ✓');
+  } catch (e) {
+    showToast('Erreur : photos trop volumineuses');
+  }
+}
+
+// ── UTILITAIRES ──
+function readFile(file) {
+  return new Promise(resolve => {
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.readAsDataURL(file);
+  });
+}
+
+function stripExt(name) { return name.replace(/\.[^.]+$/, ''); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
