@@ -117,21 +117,25 @@ function bistrot_render_page() {
         var mediaUploader;
         $(document).on('click', '.bistrot-media-btn', function() {
             var slot = $(this).data('slot');
-            if (mediaUploader) { mediaUploader.open(); return; }
-            mediaUploader = wp.media({
+            var btn  = $(this);
+            var uploader = wp.media({
                 title: 'Choisir une image',
                 button: { text: 'Utiliser cette image' },
                 multiple: false
             });
-            mediaUploader.on('select', function() {
-                var att = mediaUploader.state().get('selection').first().toJSON();
+            uploader.on('select', function() {
+                var att = uploader.state().get('selection').first().toJSON();
                 $('.slot-id-'   + slot).val(att.id);
                 $('.slot-url-'  + slot).val(att.url);
                 $('.slot-name-' + slot).val(att.title);
-                location.reload(); // simple refresh pour afficher l'aperçu
+                // Afficher l'aperçu sans recharger
+                var container = btn.closest('div[style]');
+                container.find('img').remove();
+                container.find('div[style*="aspect-ratio"]').remove();
+                $('<img>').attr('src', att.url).css({width:'100%','aspect-ratio':'3/4','object-fit':'cover',display:'block','margin-bottom':'.8rem','border-radius':'2px'}).prependTo(container);
+                btn.text('🔄 Remplacer');
             });
-            mediaUploader.open();
-            mediaUploader = null; // reset pour prochain slot
+            uploader.open();
         });
 
         // ── Vider une carte ──
