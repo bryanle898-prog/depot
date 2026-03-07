@@ -36,7 +36,7 @@
     overflow-x: hidden;
   }
 
-  /* âââ HERO âââ */
+  /* ─── HERO ─── */
   .hero {
     min-height: 100vh;
     background: var(--deep-sea);
@@ -205,7 +205,7 @@
     50% { transform: scaleY(0.5); opacity: 0.4; }
   }
 
-  /* âââ SECTION BASE âââ */
+  /* ─── SECTION BASE ─── */
   section { padding: 7rem 4rem; }
 
   .section-eyebrow {
@@ -232,7 +232,7 @@
     margin-bottom: 1.5rem;
   }
 
-  /* âââ AMBIANCE âââ */
+  /* ─── AMBIANCE ─── */
   .ambiance {
     background: var(--salt);
     display: grid;
@@ -280,7 +280,7 @@
     font-size: 1rem;
   }
 
-  /* âââ MENUS âââ */
+  /* ─── MENUS ─── */
   .menus-section {
     background: var(--deep-sea);
     padding: 7rem 4rem;
@@ -376,7 +376,7 @@
 
   .menu-card-placeholder svg { opacity: 0.3; }
 
-  /* âââ INFOS âââ */
+  /* ─── INFOS ─── */
   .infos {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -419,7 +419,7 @@
     display: block;
   }
 
-  /* âââ FOOTER âââ */
+  /* ─── FOOTER ─── */
   footer {
     background: var(--deep-sea);
     padding: 3rem 4rem;
@@ -442,7 +442,7 @@
     letter-spacing: 0.1em;
   }
 
-  /* âââ MODAL LIGHTBOX âââ */
+  /* ─── MODAL LIGHTBOX ─── */
   .modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -481,230 +481,8 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  /* âââ ADMIN PANEL âââ */
-  .admin-toggle {
-    position: fixed;
-    bottom: 2rem; right: 2rem;
-    background: var(--flamingo);
-    color: white;
-    border: none;
-    padding: 0.9rem 1.5rem;
-    cursor: pointer;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    z-index: 500;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.3s;
-    box-shadow: 0 4px 24px rgba(196,97,74,0.4);
-  }
-
-  .admin-toggle:hover { background: #a84f3a; }
-
-  .admin-panel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,20,28,0.98);
-    z-index: 900;
-    overflow-y: auto;
-    padding: 3rem 4rem;
-  }
-
-  .admin-panel.open { display: block; }
-
-  .admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-
-  .admin-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--sand);
-  }
-
-  .admin-close {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--light-reed);
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.3s;
-  }
-
-  .admin-close:hover { border-color: var(--flamingo); color: var(--flamingo); }
-
-  /* Upload zone */
-  .upload-zone {
-    border: 2px dashed rgba(255,255,255,0.15);
-    padding: 4rem;
-    text-align: center;
-    margin-bottom: 3rem;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-
-  .upload-zone:hover, .upload-zone.drag-over {
-    border-color: var(--flamingo);
-    background: rgba(196,97,74,0.05);
-  }
-
-  .upload-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-    opacity: 0.5;
-  }
-
-  .upload-label {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: var(--sand);
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .upload-hint {
-    font-size: 0.8rem;
-    color: var(--reed);
-    letter-spacing: 0.1em;
-  }
-
-  #file-input { display: none; }
-
-  .admin-menus-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-
-  .admin-card {
-    position: relative;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-  }
-
-  .admin-card img {
-    width: 100%;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    display: block;
-  }
-
-  .admin-card-info {
-    padding: 0.8rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .admin-card-name {
-    font-size: 0.78rem;
-    color: var(--light-reed);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 70%;
-  }
-
-  .admin-card-delete {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--reed);
-    width: 28px; height: 28px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .admin-card-delete:hover {
-    border-color: #e74c3c;
-    color: #e74c3c;
-  }
-
-  .empty-menus {
-    text-align: center;
-    padding: 4rem;
-    color: var(--reed);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-  }
-
-  .btn-save {
-    margin-top: 2rem;
-    background: var(--flamingo);
-    color: white;
-    border: none;
-    padding: 1rem 3rem;
-    cursor: pointer;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.3s;
-  }
-
-  .btn-save:hover { background: #a84f3a; }
-
-  .toast {
-    position: fixed;
-    top: 2rem; right: 2rem;
-    background: var(--deep-sea);
-    border: 1px solid var(--flamingo);
-    color: var(--sand);
-    padding: 1rem 2rem;
-    font-size: 0.8rem;
-    z-index: 2000;
-    transform: translateX(200%);
-    transition: transform 0.4s cubic-bezier(.19,1,.22,1);
-  }
-
-  .toast.show { transform: translateX(0); }
-
-  /* Responsive */
-  @media (max-width: 1024px) {
-    nav { padding: 1.5rem 2rem; }
-    section { padding: 5rem 2.5rem; }
-    .hero-content { padding: 0 2.5rem 5rem; }
-  }
-  @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; gap: 0.8rem; flex-wrap: wrap; }
-    .nav-links { display: none; }
-    section, .menus-section { padding: 4rem 1.5rem; }
-    footer { padding: 2rem 1.5rem; flex-direction: column; flex-wrap: wrap; gap: 1.2rem; text-align: center; }
-    .hero-content { padding: 0 1.5rem 4rem; max-width: 100%; }
-    .hero-title { font-size: clamp(2.4rem, 10vw, 4rem); }
-    .hero-sub { font-size: 1.1rem; max-width: 100%; }
-    .hero-scroll { display: none; }
-    .ambiance { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
-    .ambiance-img-main { aspect-ratio: 16/9; }
-    .ambiance-caption { left: 0; bottom: -1rem; }
-    .infos { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
-    .map-placeholder { aspect-ratio: 16/9; }
-    .menus-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .menus-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .section-title { font-size: clamp(1.6rem, 6vw, 2.4rem); }
-    div[style*="max-width:55%"] { max-width: 100% !important; }
-    div[style*="grid-template-columns:repeat(auto-fit"] { grid-template-columns: 1fr !important; }
-    .admin-toggle { bottom: 1rem; right: 1rem; }
-  }
-  @media (max-width: 400px) {
-    .hero-title { font-size: 2.2rem; }
-    .menus-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ─── LOGIN MODAL ─── */
+  /* ─── ADMIN PANEL ─── */
+    /* ─── LOGIN MODAL ─── */
   .login-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -987,7 +765,7 @@
 </head>
 <body>
 
-<!-- âââ HERO âââ -->
+<!-- ─── HERO ─── -->
 <section class="hero" id="accueil">
   <div class="hero-bg"></div>
   <svg class="hero-waves" viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -1019,7 +797,7 @@
   <div class="hero-scroll">Défiler</div>
 </section>
 
-<!-- âââ AMBIANCE âââ -->
+<!-- ─── AMBIANCE ─── -->
 <section class="ambiance" id="ambiance">
   <div class="ambiance-text">
     <div class="section-eyebrow">L'Adresse</div>
@@ -1037,7 +815,7 @@
             13 Quai Lapeyrouse<br>
             Port de Camargue<br>
             30240 Le Grau-du-Roi<br>
-            <span style="font-size: 0.9rem; color: var(--reed);">Hérault, Occitanie</span>
+            <span style="font-size: 0.9rem; color: var(--reed);">Gard, Occitanie</span>
           </p>
         </div>
         <div>
@@ -1076,7 +854,7 @@
   </div>
 </section>
 
-<!-- âââ MENUS âââ -->
+<!-- ─── MENUS ─── -->
 
 <!-- ─── CARROUSEL PLATS ─── -->
 <section class="carousel-section" id="galerie">
@@ -1090,10 +868,10 @@
     </div>
   </div>
   <div class="carousel-controls">
-    <button class="carousel-btn" id="carousel-prev" onclick="carouselPrev()">&#8592;</button>
+    <button class="carousel-btn" id="carousel-prev" onclick="carouselPrev()">←</button>
     <div class="carousel-dots" id="carousel-dots"></div>
     <span class="carousel-counter" id="carousel-counter"></span>
-    <button class="carousel-btn" id="carousel-next" onclick="carouselNext()">&#8594;</button>
+    <button class="carousel-btn" id="carousel-next" onclick="carouselNext()">→</button>
   </div>
 </section>
 
@@ -1110,7 +888,7 @@
   </div>
 </section>
 
-<!-- âââ INFOS âââ -->
+<!-- ─── INFOS ─── -->
 <section class="infos" id="infos">
   <div>
     <div class="section-eyebrow">Informations</div>
@@ -1149,7 +927,7 @@
 </div>
 </section>
 
-<!-- âââ FOOTER âââ -->
+<!-- ─── FOOTER ─── -->
 
 <section style="background:var(--warm-white);padding:5rem 4rem;border-top:1px solid rgba(26,48,64,0.08);">
   <div class="section-eyebrow">Tripadvisor · 594 avis</div>
@@ -1190,38 +968,27 @@
   <div class="footer-copy">13 Quai Lapeyrouse · Port de Camargue · 04 66 53 09 03 · © 2025</div>
 </footer>
 
-<!-- âââ ADMIN TOGGLE âââ -->
+<!-- ─── ADMIN TOGGLE ─── -->
 
-<button class="admin-toggle" onclick="openLogin()">⚙ Admin</button>
 
-<!-- âââ ADMIN PANEL âââ -->
+
+<!-- ─── ADMIN PANEL ─── -->
 
 
   <!-- TAB: SLIDESHOW -->
-  <div class="admin-tab-content" id="slideshow-tab">
-    <p style="font-size:0.8rem;color:var(--reed);margin-bottom:1.5rem;">Ajoutez des photos de plats pour le diaporama (défilement toutes les 8 secondes).</p>
-    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input-slide').click()">
-      <input type="file" id="file-input-slide" accept="image/png,image/jpeg,image/webp" multiple class="hidden-input">
-      <span class="upload-icon">🖼️</span>
-      <span class="upload-label">Glissez vos photos ici ou cliquez pour choisir</span>
-      <span class="upload-hint">PNG · JPG · WEBP — plusieurs fichiers acceptés</span>
-    </div>
-    <div class="admin-menus-grid" id="admin-slides-grid">
-      <!-- Rempli par JS -->
-    </div>
-    <button class="btn-save" onclick="saveAll()" style="margin-top:2rem;">Enregistrer & publier</button>
+  
   </div>
 </div>
 
-<!-- âââ MODAL LIGHTBOX âââ -->
+<!-- ─── MODAL LIGHTBOX ─── -->
 <div class="modal-overlay" id="modal" onclick="closeModal()">
-  <div class="modal-inner" onclick="e => e.stopPropagation()">
-    <button class="modal-close" onclick="closeModal()">â Fermer</button>
+  <div class="modal-inner" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕ Fermer</button>
     <img id="modal-img" src="" alt="Menu">
   </div>
 </div>
 
-<!-- âââ TOAST âââ -->
+<!-- ─── TOAST ─── -->
 <div class="toast" id="toast"></div>
 
 <script>
