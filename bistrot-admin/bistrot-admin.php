@@ -21,6 +21,12 @@ add_action('admin_menu', function () {
     );
 });
 
+// ── CHARGEMENT DES SCRIPTS MEDIA ─────────────────────────────────────────────
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ($hook !== 'toplevel_page_bistrot-admin') return;
+    wp_enqueue_media();
+});
+
 // ── PAGE ADMIN ────────────────────────────────────────────────────────────────
 function bistrot_render_page() {
     $slots  = get_option('bistrot_slots',  array_fill(0, 6, null));
