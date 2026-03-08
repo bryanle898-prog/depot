@@ -596,7 +596,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
     gap: 0 4rem;
-    align-items: start;
+    align-items: stretch;
     max-width: 1400px;
     margin: 0 auto;
   }
@@ -611,24 +611,30 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   .fusion-section .section-eyebrow { color: var(--flamingo); }
 
   /* Carousel (dans fusion) */
+  .fusion-carousel-col {
+    display: flex;
+    flex-direction: column;
+  }
   .carousel-wrap {
     position: relative;
-    width: 100%;
     overflow: hidden;
     user-select: none;
     border: 1px solid rgba(255,255,255,0.06);
+    flex: 1;
   }
   .carousel-track {
     display: flex;
+    height: 100%;
     transition: transform 0.7s cubic-bezier(.77,0,.175,1);
   }
   .carousel-slide {
     flex: 0 0 100%;
     box-sizing: border-box;
+    min-height: 0;
   }
   .carousel-slide img {
     width: 100%;
-    aspect-ratio: 4/3;
+    height: 100%;
     object-fit: cover;
     display: block;
     transition: opacity 0.5s;
