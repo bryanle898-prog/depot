@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maquettes Galerie – Bistrot du Port</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: #111; color: #fff; }
+
+  .page-title {
+    text-align: center;
+    padding: 2rem;
+    background: #1a1a2e;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: #c9a96e;
+    border-bottom: 2px solid #c9a96e;
+  }
+
+  .options-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #0d0d1a;
+    flex-wrap: wrap;
+  }
+
+  .btn-option {
+    padding: 0.7rem 1.5rem;
+    border: 2px solid #c9a96e;
+    background: transparent;
+    color: #c9a96e;
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    font-family: Georgia, serif;
+  }
+  .btn-option:hover, .btn-option.active {
+    background: #c9a96e;
+    color: #0d1e2b;
+    font-weight: bold;
+  }
+
+  /* ========== CAROUSEL SECTION BASE ========== */
+  .carousel-section {
+    background: #0d1e2b;
+    overflow: hidden;
+    transition: padding 0.4s;
+  }
+
+  .section-header {
+    text-align: center;
+  }
+  .section-header .label {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: #c9a96e;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .section-header h2 {
+    font-size: 2.2rem;
+    color: #f0e6d3;
+    font-weight: 400;
+  }
+  .section-header .divider {
+    width: 60px;
+    height: 2px;
+    background: #c9a96e;
+    margin: 1rem auto 0;
+  }
+
+  /* ========== CAROUSEL ========== */
+  .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s ease;
+  }
+  .carousel-slide {
+    flex-shrink: 0;
+    padding: 0 0.75rem;
+    transition: flex-basis 0.4s;
+  }
+  .carousel-slide img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s, aspect-ratio 0.4s;
+    opacity: 0.4;
+  }
+  .carousel-slide.active img {
+    opacity: 1;
+  }
+
+  .carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .nav-arrow {
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.5);
+    color: #c9a96e;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-arrow:hover { background: rgba(201,169,110,0.2); }
+
+  .nav-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(201,169,110,0.3);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .dot.active { background: #c9a96e; }
+
+  /* ========== BADGE ========== */
+  .option-badge {
+    text-align: center;
+    padding: 0.8rem;
+    background: rgba(201,169,110,0.15);
+    border-top: 1px solid rgba(201,169,110,0.3);
+  }
+  .option-badge strong { color: #c9a96e; }
+
+  /* ========== SEPARATOR ========== */
+  .separator {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 0 2rem;
+  }
+
+  /* ========== PLACEHOLDER IMAGES ========== */
+  .fake-img {
+    width: 100%;
+    background: linear-gradient(135deg, #1a3a4a 0%, #2a5a6a 50%, #1a3a4a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(201,169,110,0.5);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+  }
+
+  .label-option {
+    display: block;
+    text-align: center;
+    padding: 2rem 1rem 0.5rem;
+    font-size: 1.8rem;
+    color: #c9a96e;
+    letter-spacing: 3px;
+    font-variant: small-caps;
+  }
+
+  .label-desc {
+    display: block;
+    text-align: center;
+    padding: 0 1rem 1.5rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">MAQUETTES – GALERIE DE NOS PLATS</div>
+
+<div class="options-bar">
+  <button class="btn-option active" onclick="setOption('compact')">OPTION A – COMPACT</button>
+  <button class="btn-option" onclick="setOption('moyen')">OPTION B – MOYEN</button>
+  <button class="btn-option" onclick="setOption('actuel')">OPTION C – ACTUEL</button>
+</div>
+
+<!-- OPTION A: COMPACT -->
+<div id="opt-compact" class="carousel-section" style="padding: 4rem 0;">
+  <span class="label-option">Option A – Compact</span>
+  <span class="label-desc">Padding: 4rem | Slides: 50% | Format: 16/9 · Hauteur ~40% moins qu'actuellement</span>
+  <div class="section-header">
+    <span class="label">Notre sélection</span>
+    <h2>Galerie de nos plats</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="track-compact">
+      <div class="carousel-slide active" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 1</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 2</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 3</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 4</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 5</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 50%">
+        <div class="fake-img" style="aspect-ratio:16/9">PLAT 6</div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-nav">
+    <button class="nav-arrow" onclick="move('compact', -1)">&#8592;</button>
+    <div class="nav-dots" id="dots-compact"></div>
+    <button class="nav-arrow" onclick="move('compact', 1)">&#8594;</button>
+  </div>
+</div>
+
+<div class="option-badge">
+  Option A : <strong>Compact</strong> — padding 4rem · slides 50% · ratio 16/9
+</div>
+
+<div class="separator"></div>
+
+<!-- OPTION B: MOYEN -->
+<div id="opt-moyen" class="carousel-section" style="padding: 5rem 0;">
+  <span class="label-option">Option B – Moyen</span>
+  <span class="label-desc">Padding: 5rem | Slides: 55% | Format: 4/3 · Hauteur ~20% moins qu'actuellement</span>
+  <div class="section-header">
+    <span class="label">Notre sélection</span>
+    <h2>Galerie de nos plats</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="track-moyen">
+      <div class="carousel-slide active" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 1</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 2</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 3</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 4</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 5</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 55%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 6</div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-nav">
+    <button class="nav-arrow" onclick="move('moyen', -1)">&#8592;</button>
+    <div class="nav-dots" id="dots-moyen"></div>
+    <button class="nav-arrow" onclick="move('moyen', 1)">&#8594;</button>
+  </div>
+</div>
+
+<div class="option-badge">
+  Option B : <strong>Moyen</strong> — padding 5rem · slides 55% · ratio 4/3
+</div>
+
+<div class="separator"></div>
+
+<!-- OPTION C: ACTUEL -->
+<div id="opt-actuel" class="carousel-section" style="padding: 7rem 0;">
+  <span class="label-option">Option C – Actuel (inchangé)</span>
+  <span class="label-desc">Padding: 7rem | Slides: 65% | Format: 4/3 · Version actuelle du site</span>
+  <div class="section-header">
+    <span class="label">Notre sélection</span>
+    <h2>Galerie de nos plats</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="carousel-wrapper">
+    <div class="carousel-track" id="track-actuel">
+      <div class="carousel-slide active" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 1</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 2</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 3</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 4</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 5</div>
+      </div>
+      <div class="carousel-slide" style="flex: 0 0 65%">
+        <div class="fake-img" style="aspect-ratio:4/3">PLAT 6</div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-nav">
+    <button class="nav-arrow" onclick="move('actuel', -1)">&#8592;</button>
+    <div class="nav-dots" id="dots-actuel"></div>
+    <button class="nav-arrow" onclick="move('actuel', 1)">&#8594;</button>
+  </div>
+</div>
+
+<div class="option-badge">
+  Option C : <strong>Actuel</strong> — padding 7rem · slides 65% · ratio 4/3
+</div>
+
+<div style="text-align:center;padding:2rem;background:#0d0d1a;color:rgba(255,255,255,0.4);font-size:0.85rem;">
+  Dis moi quelle option tu préfères → A, B, ou C · ou "supprimer la section"
+</div>
+
+<script>
+  const states = {
+    compact: { current: 0, count: 6, slideWidth: 50 },
+    moyen:   { current: 0, count: 6, slideWidth: 55 },
+    actuel:  { current: 0, count: 6, slideWidth: 65 },
+  };
+
+  function initDots(name) {
+    const st = states[name];
+    const container = document.getElementById('dots-' + name);
+    container.innerHTML = '';
+    for (let i = 0; i < st.count; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === st.current ? ' active' : '');
+      d.onclick = () => goTo(name, i);
+      container.appendChild(d);
+    }
+  }
+
+  function goTo(name, idx) {
+    const st = states[name];
+    st.current = Math.max(0, Math.min(idx, st.count - 1));
+    render(name);
+  }
+
+  function move(name, dir) {
+    const st = states[name];
+    goTo(name, st.current + dir);
+  }
+
+  function render(name) {
+    const st = states[name];
+    const track = document.getElementById('track-' + name);
+    const offset = st.current * st.slideWidth;
+    track.style.transform = `translateX(-${offset}%)`;
+
+    // update active slides
+    const slides = track.querySelectorAll('.carousel-slide');
+    slides.forEach((s, i) => s.classList.toggle('active', i === st.current));
+
+    // update dots
+    const dots = document.querySelectorAll('#dots-' + name + ' .dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === st.current));
+  }
+
+  function setOption(name) {
+    document.querySelectorAll('.btn-option').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    // scroll to section
+    document.getElementById('opt-' + name).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Init all
+  ['compact', 'moyen', 'actuel'].forEach(n => {
+    initDots(n);
+    render(n);
+  });
+</script>
+</body>
+</html>
