@@ -31,6 +31,9 @@ add_action('admin_enqueue_scripts', function ($hook) {
 function bistrot_render_page() {
     $slots  = get_option('bistrot_slots',  array_fill(0, 6, null));
     $slides = get_option('bistrot_slides', []);
+    $hero         = get_option('bistrot_hero',         '');
+    $img_ambiance = get_option('bistrot_img_ambiance', '');
+    $img_infos    = get_option('bistrot_img_infos',    '');
     ?>
     <div class="wrap">
         <h1 style="font-family:Georgia,serif;margin-bottom:1.5rem;">🍽️ Bistrot du Port — Gestion du site</h1>
@@ -43,6 +46,7 @@ function bistrot_render_page() {
         <nav class="nav-tab-wrapper" style="margin-bottom:2rem;">
             <a href="#tab-menus"    class="nav-tab nav-tab-active" onclick="showTab('menus',this)">6 Cartes Menus</a>
             <a href="#tab-slides"   class="nav-tab"                onclick="showTab('slides',this)">Diaporama Plats</a>
+            <a href="#tab-photos"   class="nav-tab"                onclick="showTab('photos',this)">Photos du site</a>
         </nav>
 
         <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
@@ -99,6 +103,62 @@ function bistrot_render_page() {
                     <?php endforeach; ?>
                 </div>
                 <div id="no-slides" style="<?= count($slides) ? 'display:none' : '' ?>;color:#999;font-style:italic;margin-top:1rem;">Aucune photo ajoutée.</div>
+            </div>
+
+            <!-- ── TAB : PHOTOS DU SITE ── -->
+            <div id="tab-photos" class="bistrot-tab" style="display:none;">
+                <p style="color:#666;margin-bottom:2rem;">Ces photos sont affichées sur la page principale du site (pas dans les menus).</p>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:900px;">
+
+                    <!-- Hero -->
+                    <div style="background:#f9f9f9;border:1px solid #ddd;padding:1rem;border-radius:4px;">
+                        <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#444;margin-bottom:.3rem;">Photo Hero</div>
+                        <div style="font-size:0.72rem;color:#999;margin-bottom:.8rem;">Fond de la bannière principale</div>
+                        <?php if ($hero): ?>
+                            <img src="<?= esc_url($hero) ?>" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;margin-bottom:.8rem;border-radius:2px;" id="preview-hero">
+                        <?php else: ?>
+                            <div id="preview-hero" style="width:100%;aspect-ratio:16/9;background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:.8rem;border-radius:2px;color:#bbb;font-size:.85rem;">Vide</div>
+                        <?php endif; ?>
+                        <input type="hidden" name="hero_url" value="<?= esc_attr($hero) ?>" id="hero-url">
+                        <div style="display:flex;gap:.5rem;">
+                            <button type="button" class="button button-secondary bistrot-photo-btn" data-target="hero" style="flex:1;"><?= $hero ? '🔄 Remplacer' : '+ Choisir' ?></button>
+                            <?php if ($hero): ?><button type="button" class="button bistrot-photo-clear" data-target="hero" style="color:#c00;">✕</button><?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Ambiance -->
+                    <div style="background:#f9f9f9;border:1px solid #ddd;padding:1rem;border-radius:4px;">
+                        <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#444;margin-bottom:.3rem;">Photo Ambiance</div>
+                        <div style="font-size:0.72rem;color:#999;margin-bottom:.8rem;">Section "Terrasse face aux voiliers"</div>
+                        <?php if ($img_ambiance): ?>
+                            <img src="<?= esc_url($img_ambiance) ?>" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block;margin-bottom:.8rem;border-radius:2px;" id="preview-ambiance">
+                        <?php else: ?>
+                            <div id="preview-ambiance" style="width:100%;aspect-ratio:3/4;background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:.8rem;border-radius:2px;color:#bbb;font-size:.85rem;">Vide</div>
+                        <?php endif; ?>
+                        <input type="hidden" name="img_ambiance_url" value="<?= esc_attr($img_ambiance) ?>" id="ambiance-url">
+                        <div style="display:flex;gap:.5rem;">
+                            <button type="button" class="button button-secondary bistrot-photo-btn" data-target="ambiance" style="flex:1;"><?= $img_ambiance ? '🔄 Remplacer' : '+ Choisir' ?></button>
+                            <?php if ($img_ambiance): ?><button type="button" class="button bistrot-photo-clear" data-target="ambiance" style="color:#c00;">✕</button><?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Infos -->
+                    <div style="background:#f9f9f9;border:1px solid #ddd;padding:1rem;border-radius:4px;">
+                        <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#444;margin-bottom:.3rem;">Photo Infos</div>
+                        <div style="font-size:0.72rem;color:#999;margin-bottom:.8rem;">Section "Nous trouver" (à droite)</div>
+                        <?php if ($img_infos): ?>
+                            <img src="<?= esc_url($img_infos) ?>" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;margin-bottom:.8rem;border-radius:2px;" id="preview-infos">
+                        <?php else: ?>
+                            <div id="preview-infos" style="width:100%;aspect-ratio:4/3;background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:.8rem;border-radius:2px;color:#bbb;font-size:.85rem;">Vide</div>
+                        <?php endif; ?>
+                        <input type="hidden" name="img_infos_url" value="<?= esc_attr($img_infos) ?>" id="infos-url">
+                        <div style="display:flex;gap:.5rem;">
+                            <button type="button" class="button button-secondary bistrot-photo-btn" data-target="infos" style="flex:1;"><?= $img_infos ? '🔄 Remplacer' : '+ Choisir' ?></button>
+                            <?php if ($img_infos): ?><button type="button" class="button bistrot-photo-clear" data-target="infos" style="color:#c00;">✕</button><?php endif; ?>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
             <div style="margin-top:2.5rem;">
@@ -187,6 +247,38 @@ function bistrot_render_page() {
             $(this).closest('.slide-item').remove();
             if ($('#slides-container .slide-item').length === 0) $('#no-slides').show();
         });
+
+        // ── Photos du site (hero, ambiance, infos) ──
+        $(document).on('click', '.bistrot-photo-btn', function() {
+            var target = $(this).data('target');
+            var btn = $(this);
+            var uploader = wp.media({
+                title: 'Choisir une photo',
+                button: { text: 'Utiliser cette photo' },
+                multiple: false
+            });
+            uploader.on('select', function() {
+                var att = uploader.state().get('selection').first().toJSON();
+                $('#' + target + '-url').val(att.url);
+                var preview = $('#preview-' + target);
+                if (preview.is('img')) {
+                    preview.attr('src', att.url);
+                } else {
+                    var ratio = target === 'ambiance' ? '3/4' : (target === 'hero' ? '16/9' : '4/3');
+                    preview.replaceWith('<img id="preview-' + target + '" src="' + att.url + '" style="width:100%;aspect-ratio:' + ratio + ';object-fit:cover;display:block;margin-bottom:.8rem;border-radius:2px;">');
+                }
+                btn.text('🔄 Remplacer');
+            });
+            uploader.open();
+        });
+
+        $(document).on('click', '.bistrot-photo-clear', function() {
+            var target = $(this).data('target');
+            $('#' + target + '-url').val('');
+            var ratio = target === 'ambiance' ? '3/4' : (target === 'hero' ? '16/9' : '4/3');
+            $('#preview-' + target).replaceWith('<div id="preview-' + target + '" style="width:100%;aspect-ratio:' + ratio + ';background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:.8rem;border-radius:2px;color:#bbb;font-size:.85rem;">Vide</div>');
+            $(this).hide();
+        });
     });
     </script>
     <?php
@@ -224,6 +316,11 @@ add_action('admin_post_bistrot_save', function () {
 
     update_option('bistrot_slots',  $slots);
     update_option('bistrot_slides', $slides);
+
+    // Photos du site
+    update_option('bistrot_hero',         sanitize_url($_POST['hero_url']         ?? ''));
+    update_option('bistrot_img_ambiance', sanitize_url($_POST['img_ambiance_url'] ?? ''));
+    update_option('bistrot_img_infos',    sanitize_url($_POST['img_infos_url']    ?? ''));
 
     wp_redirect(admin_url('admin.php?page=bistrot-admin&saved=1'));
     exit;
