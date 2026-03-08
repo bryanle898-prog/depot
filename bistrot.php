@@ -795,6 +795,79 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   }
   .slot-card-admin.filled:hover .slot-del { opacity: 1; }
   .hidden-input { display: none; }
+
+  /* ════════════════════════════════════════
+     MOBILE — max 768px
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav {
+      padding: 1.4rem 1.5rem;
+    }
+    .nav-links {
+      display: none;
+    }
+
+    /* HERO */
+    .hero-content {
+      padding: 0 1.5rem 5rem;
+    }
+    .hero-scroll { display: none; }
+
+    /* SECTIONS */
+    section { padding: 4.5rem 1.5rem; }
+
+    /* AMBIANCE */
+    .ambiance {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .ambiance-caption {
+      position: static;
+      margin-top: 1rem;
+    }
+
+    /* MENUS GRID (2 cartes côte à côte) */
+    .menus-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    /* INFOS / CONTACT */
+    .infos {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    /* FUSION section */
+    .fusion-section { padding: 4rem 1.5rem; }
+    .fusion-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem 0;
+    }
+    .fusion-divider { display: none; }
+
+    /* FOOTER */
+    footer {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+  }
+
+  /* ════════════════════════════════════════
+     PETIT MOBILE — max 420px
+  ════════════════════════════════════════ */
+  @media (max-width: 420px) {
+    .menus-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 11vw, 4rem);
+    }
+  }
 </style>
 </head>
 <body>
