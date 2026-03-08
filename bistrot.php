@@ -306,33 +306,10 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   }
 
   /* ─── MENUS ─── */
-  .menus-section {
-    background: var(--deep-sea);
-    padding: 7rem 4rem;
-  }
-
-  .menus-section .section-title { color: var(--sand); }
-  .menus-section .section-eyebrow { color: var(--flamingo); }
-
-  .menus-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
-  }
-
-  .menus-intro {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: var(--light-reed);
-    max-width: 400px;
-    line-height: 1.7;
-  }
-
   .menus-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
   }
 
   .menu-card {
@@ -610,32 +587,43 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   }
   .login-cancel:hover { color: var(--light-reed); }
 
-  /* ─── SLIDESHOW ─── */
-  /* ─── CARROUSEL ─── */
-  .carousel-section {
+  /* ─── FUSION MENUS + GALERIE ─── */
+  .fusion-section {
     background: var(--deep-sea);
-    padding: 7rem 0;
-    overflow: hidden;
+    padding: 5rem 4rem;
   }
-  .carousel-section .section-eyebrow { color: var(--flamingo); }
-  .carousel-section .section-title   { color: var(--sand); }
-  .carousel-header {
-    padding: 0 4rem;
-    margin-bottom: 3rem;
+  .fusion-inner {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 4rem;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
   }
+  .fusion-divider {
+    background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.25) 30%, rgba(201,169,110,0.25) 70%, transparent);
+    align-self: stretch;
+  }
+  .fusion-col-header {
+    margin-bottom: 2.5rem;
+  }
+  .fusion-section .section-title   { color: var(--sand); }
+  .fusion-section .section-eyebrow { color: var(--flamingo); }
+
+  /* Carousel (dans fusion) */
   .carousel-wrap {
     position: relative;
     width: 100%;
     overflow: hidden;
     user-select: none;
+    border: 1px solid rgba(255,255,255,0.06);
   }
   .carousel-track {
     display: flex;
     transition: transform 0.7s cubic-bezier(.77,0,.175,1);
   }
   .carousel-slide {
-    flex: 0 0 65%;
-    padding: 0 0.75rem;
+    flex: 0 0 100%;
     box-sizing: border-box;
   }
   .carousel-slide img {
@@ -643,35 +631,35 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
     aspect-ratio: 4/3;
     object-fit: cover;
     display: block;
-    opacity: 0.45;
     transition: opacity 0.5s;
-    border: 1px solid rgba(255,255,255,0.06);
   }
-  .carousel-slide.active img { opacity: 1; }
   .carousel-empty {
     text-align: center;
-    padding: 4rem;
+    padding: 4rem 2rem;
     color: rgba(255,255,255,0.2);
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-style: italic;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .carousel-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
-    padding: 0 4rem;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
   }
   .carousel-btn {
     background: none;
     border: 1px solid rgba(255,255,255,0.2);
     color: var(--light-reed);
-    width: 48px; height: 48px;
+    width: 42px; height: 42px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: all 0.3s;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -703,13 +691,15 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
     font-size: 0.72rem;
     letter-spacing: 0.15em;
     color: var(--reed);
-    min-width: 60px;
+    min-width: 50px;
     text-align: center;
   }
-  @media (max-width: 768px) {
-    .carousel-slide { flex: 0 0 85%; }
-    .carousel-header { padding: 0 1.5rem; }
-    .carousel-section { padding: 4rem 0; }
+  @media (max-width: 900px) {
+    .fusion-inner {
+      grid-template-columns: 1fr;
+    }
+    .fusion-divider { display: none; }
+    .fusion-section { padding: 4rem 1.5rem; }
   }
 
   /* ─── ADMIN TABS ─── */
@@ -892,37 +882,43 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   </div>
 </section>
 
-<!-- ─── MENUS ─── -->
+<!-- ─── MENUS + GALERIE (section fusionnée) ─── -->
+<section class="fusion-section" id="menus">
+  <div class="fusion-inner">
 
-<!-- ─── CARROUSEL PLATS ─── -->
-<section class="carousel-section" id="galerie">
-  <div class="carousel-header">
-    <div class="section-eyebrow">Nos plats</div>
-    <h2 class="section-title">Une cuisine qui se regarde</h2>
-  </div>
-  <div class="carousel-wrap" id="carousel-wrap">
-    <div class="carousel-track" id="carousel-track">
-      <div class="carousel-empty">Aucune photo pour le moment</div>
+    <!-- Gauche : Cartes & Menus -->
+    <div class="fusion-cards-col">
+      <div class="fusion-col-header">
+        <div class="section-eyebrow">Carte &amp; Menus</div>
+        <h2 class="section-title">Nos suggestions du moment</h2>
+      </div>
+      <div class="menus-grid" id="menus-grid">
+        <!-- Rempli par JS -->
+      </div>
     </div>
-  </div>
-  <div class="carousel-controls">
-    <button class="carousel-btn" id="carousel-prev" onclick="carouselPrev()">←</button>
-    <div class="carousel-dots" id="carousel-dots"></div>
-    <span class="carousel-counter" id="carousel-counter"></span>
-    <button class="carousel-btn" id="carousel-next" onclick="carouselNext()">→</button>
-  </div>
-</section>
 
-<section class="menus-section" id="menus">
-  <div class="menus-header">
-    <div>
-      <div class="section-eyebrow">Carte & Menus</div>
-      <h2 class="section-title">Nos suggestions du moment</h2>
+    <!-- Séparateur vertical -->
+    <div class="fusion-divider"></div>
+
+    <!-- Droite : Galerie photos plats -->
+    <div class="fusion-carousel-col">
+      <div class="fusion-col-header">
+        <div class="section-eyebrow">Nos plats</div>
+        <h2 class="section-title">Une cuisine qui se regarde</h2>
+      </div>
+      <div class="carousel-wrap" id="carousel-wrap">
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-empty">Aucune photo pour le moment</div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="carousel-prev" onclick="carouselPrev()">←</button>
+        <div class="carousel-dots" id="carousel-dots"></div>
+        <span class="carousel-counter" id="carousel-counter"></span>
+        <button class="carousel-btn" id="carousel-next" onclick="carouselNext()">→</button>
+      </div>
     </div>
-    <p class="menus-intro">Toutes nos cartes — spécialités de la mer, pizzas, viandes, menus et sélection de vins. Cliquez pour agrandir.</p>
-  </div>
-  <div class="menus-grid" id="menus-grid">
-    <!-- Rempli par JS -->
+
   </div>
 </section>
 
@@ -1096,14 +1092,9 @@ function updateCarousel() {
   const dotsEl  = document.getElementById('carousel-dots');
   const counter = document.getElementById('carousel-counter');
   const allSlides = track ? track.querySelectorAll('.carousel-slide') : [];
-  const wrap    = document.getElementById('carousel-wrap');
   if (!allSlides.length) return;
 
-  // Offset: center active slide
-  const slideW = allSlides[0].offsetWidth;
-  const wrapW  = wrap ? wrap.offsetWidth : window.innerWidth;
-  const offset = (wrapW - slideW) / 2 - slideshowIndex * slideW;
-  track.style.transform = `translateX(${offset}px)`;
+  track.style.transform = `translateX(-${slideshowIndex * 100}%)`;
 
   allSlides.forEach((s, i) => s.classList.toggle('active', i === slideshowIndex));
   if (dotsEl) dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === slideshowIndex));
