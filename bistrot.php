@@ -887,7 +887,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
     </div>
   </div>
   <div class="ambiance-visual">
-    <div class="ambiance-img-main"><?php if ($bistrot_img_ambiance): ?><img src="<?php echo esc_url($bistrot_img_ambiance); ?>" alt="Terrasse face aux voiliers" loading="lazy"><?php else: ?><div class="ambiance-img-placeholder"></div><?php endif; ?>
+    <div class="ambiance-img-main"><?php if ($bistrot_img_ambiance): ?><img src="<?php echo esc_url($bistrot_img_ambiance); ?>" alt="Terrasse face aux voiliers" loading="lazy"><?php else: ?><div class="ambiance-img-placeholder"></div><?php endif; ?></div>
     <div class="ambiance-caption">Terrasse face aux voiliers</div>
   </div>
 </section>
