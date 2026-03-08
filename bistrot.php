@@ -594,7 +594,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   }
   .fusion-inner {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: 2fr 1px 3fr;
     gap: 0 4rem;
     align-items: stretch;
     max-width: 1400px;
