@@ -857,7 +857,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
           <p style="font-size: 0.95rem; line-height: 1.8; color: var(--deep-sea);">
             <a href="tel:+33466530903" style="color: var(--flamingo); text-decoration: none; font-weight: 500;">04 66 53 09 03</a><br>
             <span style="font-size: 0.85rem; color: var(--reed);">Réservation conseillée</span><br><br>
-            <a href="#contact" style="color: var(--sea); text-decoration: underline; font-size: 0.9rem;">✉️ Nous écrire</a>
+            <a href="mailto:lebistrotduport@gmail.com" style="color: var(--sea); text-decoration: underline; font-size: 0.9rem;">✉️ Nous écrire</a>
           </p>
         </div>
       </div>
@@ -952,7 +952,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
     <div class="infos-block">
       <h3>Réservations</h3>
       <a href="tel:+33466530903">04 66 53 09 03</a>
-      <a href="/cdn-cgi/l/email-protection#39555c5b504a4d4b564d5d4c49564b4d795e54585055175a5654"><span class="__cf_email__" data-cfemail="9cf0f9fef5efe8eef3e8f8e9ecf3eee8dcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></a>
+      <a href="mailto:lebistrotduport@gmail.com">lebistrotduport@gmail.com</a>
     </div>
   </div>
 
