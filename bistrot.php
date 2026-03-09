@@ -891,7 +891,24 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
       <li><a href="https://www.facebook.com/p/Le-Bistrot-du-Port-100063733831736/?locale=fr_FR" target="_blank" rel="noopener" title="Facebook" style="display:flex;align-items:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a></li>
       <li><a href="https://www.instagram.com/lebistrotduportportcamargue/" target="_blank" rel="noopener" title="Instagram" style="display:flex;align-items:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></li>
     </ul>
-    <a href="tel:+33466530903" style="font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--flamingo);border:1px solid var(--flamingo);padding:0.6rem 1.4rem;text-decoration:none;transition:all 0.3s;white-space:nowrap;" onmouseover="this.style.background='#C4614A';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--flamingo)'">Réserver</a>
+    <!-- Sur mobile : lien tel direct. Sur desktop : affiche le numéro -->
+    <a href="tel:+33466530903" id="btn-reserver" style="font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--flamingo);border:1px solid var(--flamingo);padding:0.6rem 1.4rem;text-decoration:none;transition:all 0.3s;white-space:nowrap;" onmouseover="this.style.background='#C4614A';this.style.color='white'" onmouseout="this.style.background='transparent';this.style.color='var(--flamingo)'">Réserver</a>
+    <script>
+      (function() {
+        var btn = document.getElementById('btn-reserver');
+        // Sur desktop (pas d'écran tactile), on neutralise le href tel: et on affiche le numéro
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+          btn.removeAttribute('href');
+          btn.style.cursor = 'default';
+          btn.addEventListener('mouseenter', function() {
+            btn.textContent = '04 66 53 09 03';
+          });
+          btn.addEventListener('mouseleave', function() {
+            btn.textContent = 'Réserver';
+          });
+        }
+      })();
+    </script>
   </nav>
 
   <div class="hero-content">
