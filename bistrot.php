@@ -1014,11 +1014,14 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
 
     <div class="infos-block">
       <h3>Horaires</h3>
-      <p><strong>Saison</strong> (1er avril – 30 septembre)<br>
-      Ouvert tous les jours midi et soir<br><br>
-      <strong>Hors saison</strong><br>
-      Tous les midis · Vendredi &amp; samedi soir<br><br>
-      12h00 – 13h30 · 19h00 – 21h30</p>
+      <p>
+        <strong>Saison</strong> — 1er avril au 30 septembre<br>
+        Tous les jours : 12h00–13h30 &amp; 19h00–21h30<br>
+        <br>
+        <strong>Hors saison</strong> — 1er octobre au 31 mars<br>
+        Tous les midis : 12h00–13h30<br>
+        Vendredi &amp; samedi soir : 19h00–21h30
+      </p>
     </div>
 
 
