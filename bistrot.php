@@ -1014,7 +1014,11 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
 
     <div class="infos-block">
       <h3>Horaires</h3>
-      <p>Du 15 jan. au 22 déc. — sauf mercredi<br>(7j/7 en juillet &amp; août)<br>12h00 – 14h30 · 19h00 – 22h00</p>
+      <p><strong>Saison</strong> (1er avril – 30 septembre)<br>
+      Ouvert tous les jours midi et soir<br><br>
+      <strong>Hors saison</strong><br>
+      Tous les midis · Vendredi &amp; samedi soir<br><br>
+      12h00 – 13h30 · 19h00 – 21h30</p>
     </div>
 
 
