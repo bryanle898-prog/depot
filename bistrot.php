@@ -913,7 +913,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
 
   <div class="hero-content">
     <div class="hero-tag">Port de Camargue · 13 Quai Lapeyrouse</div>
-    <h1 class="hero-title">Le goût<br>de <em>la mer</em><br>et des marais</h1>
+    <h1 class="hero-title">Le goût<br>de <em>la mer</em><br>et des terroirs</h1>
     <p class="hero-sub">Sur le port, face aux voiliers, une table qui célèbre les saveurs de la Méditerranée et de la Camargue.</p>
     <a href="#menus" class="hero-cta">Découvrir nos menus</a>
   </div>
@@ -926,7 +926,7 @@ $bistrot_img_infos    = get_option("bistrot_img_infos",    "");
   <div class="ambiance-text">
     <div class="section-eyebrow">L'Adresse</div>
     <h2 class="section-title">Un bistrot ancré dans son territoire</h2>
-    <p>Au cœur du <strong>premier port de plaisance d'Europe</strong>, entre les étangs et la Méditerranée, notre cuisine célèbre les trésors d'un terroir unique — parrillada de poissons, rouille de poulpe, gardiane de taureau et tellines fraîches.</p>
+    <p>Au cœur du <strong>premier port de plaisance d'Europe</strong>, entre les étangs et la Méditerranée, notre cuisine célèbre les trésors d'un terroir unique — parrillada de poissons, rouille de poulpe, gardiane de taureau.</p>
     <p>Terrasse ombragée face aux voiliers l'été, véranda chauffée face au port l'hiver — chaque assiette est une invitation à ralentir, à sentir le vent du large, à retrouver le goût vrai des choses simples et belles.</p>
     
     <!-- Structured Information -->
